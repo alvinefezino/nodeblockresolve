@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Resolves — Connect your wallet to access the decentralized web. Secure protocol for wallets and dApps." />
+  <meta name="theme-color" content="#0a0a0f" />
+  <title>Resolves — Connect Your Wallet to Continue</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Space Grotesk', 'Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            ink: {
+              950: '#05050a',
+              900: '#0a0a0f',
+              850: '#0d0d14',
+              800: '#12121a',
+              700: '#1a1a24',
+              600: '#252532',
+            },
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg: #05050a;
+      --purple: #a855f7;
+      --cyan: #22d3ee;
+      --blue: #3b82f6;
+    }
+
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: #e5e7eb;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .aurora-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .aurora-bg::before,
+    .aurora-bg::after {
+      content: '';
+      position: absolute;
+      width: 60vw;
+      height: 60vw;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.35;
+      animation: aurora 20s ease-in-out infinite;
+    }
+
+    .aurora-bg::before {
+      background: radial-gradient(circle, #a855f7 0%, transparent 70%);
+      top: -20%;
+      left: -10%;
+    }
+
+    .aurora-bg::after {
+      background: radial-gradient(circle, #22d3ee 0%, transparent 70%);
+      bottom: -20%;
+      right: -10%;
+      animation-delay: -10s;
+    }
+
+    @keyframes aurora {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      50% {
+        transform: translate(50px, 30px) rotate(180deg);
+      }
+    }
+
+    .glass {
+      background: rgba(18, 18, 26, 0.55);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-strong {
+      background: rgba(10, 10, 15, 0.75);
+      backdrop-filter: blur(30px) saturate(200%);
+      -webkit-backdrop-filter: blur(30px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-border {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .glow-text {
+      background: linear-gradient(135deg, #fff 0%, #c4b5fd 40%, #a855f7 70%, #22d3ee 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glow-text-cyan {
+      background: linear-gradient(135deg, #fff 0%, #67e8f9 50%, #22d3ee 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn-primary {
+      position: relative;
+      background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 50%, #6366f1 100%);
+      color: white;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.5), 0 10px 40px -10px rgba(168, 85, 247, 0.5);
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .btn-primary:hover::before {
+      opacity: 1;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.8), 0 20px 60px -10px rgba(168, 85, 247, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e5e7eb;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(168, 85, 247, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .magnetic {
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger>* {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+
+    .stagger.visible>*:nth-child(1) {
+      transition-delay: 0ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(2) {
+      transition-delay: 60ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(3) {
+      transition-delay: 120ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(4) {
+      transition-delay: 180ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(5) {
+      transition-delay: 240ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(6) {
+      transition-delay: 300ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(7) {
+      transition-delay: 360ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(8) {
+      transition-delay: 420ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(9) {
+      transition-delay: 480ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(10) {
+      transition-delay: 540ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(11) {
+      transition-delay: 600ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(12) {
+      transition-delay: 660ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(13) {
+      transition-delay: 720ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(12) {
+      transition-delay: 780ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(13) {
+      transition-delay: 840ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(14) {
+      transition-delay: 900ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(12) {
+      transition-delay: 960ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(15) {
+      transition-delay: 1020ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(16) {
+      transition-delay: 1080ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(17) {
+      transition-delay: 1140ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(18) {
+      transition-delay: 1200ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(19) {
+      transition-delay: 1260ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(20) {
+      transition-delay: 1320ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(21) {
+      transition-delay: 1380ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(22) {
+      transition-delay: 1440ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(23) {
+      transition-delay: 1500ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger.visible>*:nth-child(24) {
+      transition-delay: 1560ms;
+      opacity: 1;
+      transform: none;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #a855f7, #22d3ee);
+      z-index: 100;
+      transform-origin: left;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #05050a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #a855f7, #6366f1);
+      border-radius: 5px;
+    }
+
+    .pulse-dot {
+      position: relative;
+    }
+
+    .pulse-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: inherit;
+      opacity: 0.6;
+      animation: pulseRing 2s ease-out infinite;
+    }
+
+    @keyframes pulseRing {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+      }
+
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+
+    .modal-backdrop {
+      background: rgba(5, 5, 10, 0.8);
+      backdrop-filter: blur(12px);
+    }
+
+    .feature-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(168, 85, 247, 0.15), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent 60%);
+      pointer-events: none;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+      mix-blend-mode: screen;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .tag {
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      color: #c4b5fd;
+    }
+
+    .divider-glow {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.5), transparent);
+    }
+
+    .counter {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Wallet connection pulse ring */
+    .connect-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      animation: connectPulse 3s ease-out infinite;
+    }
+
+    @keyframes connectPulse {
+      0% {
+        transform: scale(0.8);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+
+    /* Orbit */
+    .orbit {
+      animation: orbit 20s linear infinite;
+      transform-origin: center;
+    }
+
+    @keyframes orbit {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Issue card hover */
+    .issue-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .issue-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(168, 85, 247, 0.4);
+      background: rgba(168, 85, 247, 0.05);
+    }
+
+    .issue-card:hover .issue-arrow {
+      transform: translateX(4px);
+      color: #a855f7;
+    }
+
+    .issue-arrow {
+      transition: all 0.3s;
+    }
+
+    /* Disconnected state animation */
+    .disconnected-pulse {
+      animation: disconnectedPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes disconnectedPulse {
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    /* Wallet icon float */
+    .wallet-float {
+      animation: walletFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes walletFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-2deg);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(2deg);
+      }
+    }
+
+    /* Marquee */
+    .marquee {
+      display: flex;
+      animation: marquee 40s linear infinite;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+
+<body class="relative">
+
+  <div class="aurora-bg"></div>
+  <div id="cursor-glow" class="cursor-glow hidden lg:block" style="opacity:0"></div>
+  <div id="scroll-progress" class="scroll-progress" style="transform: scaleX(0)"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a onclick="openWalletModal()" class="flex items-center gap-3 group">
+          <div class="relative w-9 h-9">
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-400 rounded-lg blur-md opacity-60 group-hover:opacity-100 transition">
+            </div>
+            <div
+              class="relative w-9 h-9 bg-gradient-to-br from-purple-500 via-violet-500 to-cyan-400 rounded-lg flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+          </div>
+          <span class="font-display font-bold text-xl tracking-tight text-white">Resolves</span>
+        </a>
+
+        <div class="hidden lg:flex items-center gap-1">
+          <a href="#connect"
+            class="nav-link px-4 py-2 text-sm text-gray-300 hover:text-white transition relative group">
+            Connect
+            <span
+              class="absolute inset-x-4 bottom-0 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+          </a>
+          <a href="#support" class="nav-link px-4 py-2 text-sm text-gray-300 hover:text-white transition">Support</a>
+          <a href="#protocol" class="nav-link px-4 py-2 text-sm text-gray-300 hover:text-white transition">Protocol</a>
+          <a href="#security" class="nav-link px-4 py-2 text-sm text-gray-300 hover:text-white transition">Security</a>
+          <a href="#docs" class="nav-link px-4 py-2 text-sm text-gray-300 hover:text-white transition">Docs</a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div id="wallet-status"
+            class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20">
+            <span class="w-1.5 h-1.5 bg-red-400 rounded-full disconnected-pulse"></span>
+            <span class="text-xs text-red-300 font-medium">Not Connected</span>
+          </div>
+          <button id="connect-wallet-btn" onclick="openWalletModal()"
+            class="btn-primary magnetic px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
+            <i data-lucide="wallet" class="w-4 h-4"></i>
+            <span>Connect Wallet</span>
+          </button>
+          <button id="mobile-menu-btn" class="lg:hidden p-2 text-white">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 hidden lg:hidden">
+    <div class="absolute inset-0 modal-backdrop" onclick="toggleMobileMenu()"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-80 glass-strong p-6 overflow-y-auto">
+      <div class="flex justify-between items-center mb-8">
+        <span class="font-display font-bold text-lg">Menu</span>
+        <button onclick="toggleMobileMenu()" class="p-2 text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="flex flex-col gap-1">
+        <a href="#connect" class="px-4 py-3 rounded-lg hover:bg-white/5 text-gray-200">Connect Wallet</a>
+        <a href="#support" class="px-4 py-3 rounded-lg hover:bg-white/5 text-gray-200">Support</a>
+        <a href="#protocol" class="px-4 py-3 rounded-lg hover:bg-white/5 text-gray-200">Protocol</a>
+        <a href="#security" class="px-4 py-3 rounded-lg hover:bg-white/5 text-gray-200">Security</a>
+        <a href="#docs" class="px-4 py-3 rounded-lg hover:bg-white/5 text-gray-200">Documentation</a>
+      </div>
+      <div class="mt-6 space-y-3">
+        <button onclick="openWalletModal()"
+          class="w-full btn-primary px-4 py-3 rounded-lg text-sm font-semibold">Connect Wallet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO — DEFAULT STATE: WALLET NOT CONNECTED -->
+  <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <canvas id="hero-canvas"></canvas>
+
+    <div class="absolute inset-0 pointer-events-none">
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/20 rounded-full blur-[120px]">
+      </div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 w-full py-20">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <!-- Left: Copy -->
+        <div class="lg:col-span-7">
+          <div
+            class="reveal inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-8 bg-red-500/10 border border-red-500/20 text-red-300">
+            <span class="w-1.5 h-1.5 bg-red-400 rounded-full disconnected-pulse"></span>
+            <span>Wallet not connected · Action required</span>
+          </div>
+
+          <h1
+            class="reveal font-display font-bold text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[0.95] tracking-tight mb-8">
+            <span class="block">Connect Your</span>
+            <span class="block glow-text">Wallet to</span>
+            <span class="block glow-text-cyan">Continue.</span>
+          </h1>
+
+          <p class="reveal text-lg lg:text-xl text-gray-400 max-w-2xl mb-10 leading-relaxed">
+            Your wallet is the key to the decentralized web. Connect securely via our open protocol to access dApps,
+            manage assets, and validate transactions across 35+ networks.
+          </p>
+
+          <div class="reveal flex flex-wrap items-center gap-4 mb-12">
+            <button onclick="openWalletModal()"
+              class="btn-primary magnetic px-8 py-4 rounded-xl font-semibold text-base flex items-center gap-2 group">
+              <i data-lucide="wallet" class="w-5 h-5"></i>
+              <span>Connect Wallet</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <button class="btn-ghost magnetic px-8 py-4 rounded-xl font-medium text-base flex items-center gap-2">
+              <i data-lucide="shield-question" class="w-4 h-4"></i>
+              <span>How it works</span>
+            </button>
+          </div>
+
+          <div class="reveal flex flex-wrap items-center gap-6 text-sm text-gray-500">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+              <span>End-to-end encrypted</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="lock" class="w-4 h-4 text-purple-400"></i>
+              <span>Non-custodial</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="zap" class="w-4 h-4 text-cyan-400"></i>
+              <span>Bridge server relay</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Connection state visual -->
+        <div class="lg:col-span-5 relative h-[780px] lg:h-[760px]">
+          <!-- Main wallet connection card -->
+          <div class="absolute inset-x-4 top-8 glass-strong rounded-3xl p-8 glass-border reveal">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-red-400 rounded-full disconnected-pulse"></span>
+                <span class="text-xs text-gray-400 font-mono">DEFAULT STATE</span>
+              </div>
+              <div class="text-xs text-gray-500 font-mono">v3.0.1</div>
+            </div>
+
+            <!-- Wallet icon with pulse rings -->
+            <div class="relative w-32 h-32 mx-auto mb-6">
+              <div class="absolute inset-0 connect-ring" style="animation-delay: 0s"></div>
+              <div class="absolute inset-0 connect-ring" style="animation-delay: 1s"></div>
+              <div class="absolute inset-0 connect-ring" style="animation-delay: 2s"></div>
+              <div class="relative w-full h-full glass rounded-2xl flex items-center justify-center wallet-float">
+                <i data-lucide="wallet" class="w-14 h-14 text-purple-400"></i>
+              </div>
+            </div>
+
+            <div class="text-center mb-6">
+              <div class="font-display font-bold text-xl text-white mb-2">Wallet Not Connected</div>
+              <div class="text-sm text-gray-400">Connect to access your assets and dApps</div>
+            </div>
+
+            <!-- Status items -->
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-7 h-7 rounded-md bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                    <i data-lucide="x" class="w-3.5 h-3.5 text-red-400"></i>
+                  </div>
+                  <span class="text-sm text-gray-300">Wallet connection</span>
+                </div>
+                <span class="text-xs text-red-400 font-mono">Required</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-7 h-7 rounded-md bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                    <i data-lucide="x" class="w-3.5 h-3.5 text-red-400"></i>
+                  </div>
+                  <span class="text-sm text-gray-300">Network validation</span>
+                </div>
+                <span class="text-xs text-red-400 font-mono">Pending</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-7 h-7 rounded-md bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                    <i data-lucide="x" class="w-3.5 h-3.5 text-red-400"></i>
+                  </div>
+                  <span class="text-sm text-gray-300">Bridge server</span>
+                </div>
+                <span class="text-xs text-red-400 font-mono">Idle</span>
+              </div>
+            </div>
+
+            <button onclick="openWalletModal()"
+              class="w-full btn-primary py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2">
+              <i data-lucide="plug" class="w-4 h-4"></i>
+              <span>Connect Now</span>
+            </button>
+          </div>
+
+          <!-- Floating mini card: Protocol info -->
+          <div class="absolute bottom-4 left-0 right-8 glass rounded-2xl p-4 reveal">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/20 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="info" class="w-4 h-4 text-purple-300"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-xs text-gray-400 mb-0.5">Open Protocol</div>
+                <div class="text-sm text-white font-medium truncate">Secure Wallet ↔ dApp Bridge</div>
+              </div>
+              <i data-lucide="arrow-up-right" class="w-4 h-4 text-gray-500 flex-shrink-0"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500 text-xs">
+      <span>Scroll for support</span>
+      <div class="w-px h-10 bg-gradient-to-b from-purple-500 to-transparent"></div>
+    </div>
+  </section>
+
+  <!-- SUPPORTED WALLETS MARQUEE -->
+  <section class="relative py-12 border-y border-white/5 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 mb-6">
+      <p class="text-center text-xs uppercase tracking-[0.2em] text-gray-500">Compatible with leading wallets</p>
+    </div>
+    <div class="relative overflow-hidden">
+      <div class="marquee gap-16 whitespace-nowrap">
+        <div class="flex gap-16 items-center">
+          <span class="font-display text-2xl text-gray-400">◆ MetaMask</span>
+          <span class="font-display text-2xl text-gray-400">▲ WalletConnect</span>
+          <span class="font-display text-2xl text-gray-400">● Coinbase</span>
+          <span class="font-display text-2xl text-gray-400">◇ Rainbow</span>
+          <span class="font-display text-2xl text-gray-400">◈ Trust Wallet</span>
+          <span class="font-display text-2xl text-gray-400">✦ Phantom</span>
+          <span class="font-display text-2xl text-gray-400">⬢ Ledger</span>
+          <span class="font-display text-2xl text-gray-400">◉ Rabby</span>
+        </div>
+        <div class="flex gap-16 items-center">
+          <span class="font-display text-2xl text-gray-400">◆ MetaMask</span>
+          <span class="font-display text-2xl text-gray-400">▲ WalletConnect</span>
+          <span class="font-display text-2xl text-gray-400">● Coinbase</span>
+          <span class="font-display text-2xl text-gray-400">◇ Rainbow</span>
+          <span class="font-display text-2xl text-gray-400">◈ Trust Wallet</span>
+          <span class="font-display text-2xl text-gray-400">✦ Phantom</span>
+          <span class="font-display text-2xl text-gray-400">⬢ Ledger</span>
+          <span class="font-display text-2xl text-gray-400">◉ Rabby</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT HUB — Issues from knowledge base -->
+  <section id="support" class="relative py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-16 reveal">
+        <div class="inline-flex items-center gap-2 tag px-3 py-1 rounded-full text-xs font-medium mb-4">
+          <i data-lucide="life-buoy" class="w-3 h-3"></i>
+          <span>Support Hub</span>
+        </div>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-6">
+          Need help? <span class="glow-text">We've got you.</span>
+        </h2>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+          Select your issue below. Our protocol support system will guide you through resolution — no matter what state
+          your wallet is in.
+        </p>
+      </div>
+
+      <!-- Search bar -->
+      <div class="reveal max-w-2xl mx-auto mb-12">
+        <div class="glass rounded-xl p-1.5 flex items-center gap-2 glass-border">
+          <i data-lucide="search" class="w-4 h-4 text-gray-500 ml-3"></i>
+          <input type="text" id="issue-search"
+            placeholder="Search for an issue (e.g., 'slippage', 'migration', 'gas fees')"
+            class="flex-1 bg-transparent px-2 py-3 text-sm text-white placeholder-gray-500 outline-none" />
+          <button class="btn-primary px-4 py-2 rounded-lg text-sm font-medium">Search</button>
+        </div>
+      </div>
+
+      <!-- Issues grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 stagger" id="issues-grid">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Live support CTA -->
+      <div
+        class="reveal mt-12 glass-strong rounded-2xl p-8 glass-border flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-5">
+          <div
+            class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-cyan-400 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="headphones" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <div class="font-display font-bold text-xl text-white mb-1">Still stuck? Talk to a human.</div>
+            <div class="text-sm text-gray-400">Our support team is online 24/7. Average response time: 4 minutes.</div>
+          </div>
+        </div>
+        <button
+          class="btn-primary magnetic px-6 py-3 rounded-xl font-semibold flex items-center gap-2 whitespace-nowrap">
+          <span>Open Live Chat</span>
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROTOCOL — How connection works -->
+  <section id="protocol" class="relative py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-16 reveal">
+        <div class="inline-flex items-center gap-2 tag px-3 py-1 rounded-full text-xs font-medium mb-4">
+          <i data-lucide="network" class="w-3 h-3"></i>
+          <span>Open Protocol</span>
+        </div>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-6">
+          How the <span class="glow-text">connection works</span>
+        </h2>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+          Our open protocol establishes a secure remote connection between your wallet and dApps through an encrypted
+          bridge server.
+        </p>
+      </div>
+
+      <!-- Connection flow -->
+      <div class="reveal glass-strong rounded-3xl p-8 lg:p-12 glass-border relative overflow-hidden">
+        <div class="grid md:grid-cols-5 gap-6 items-center">
+          <!-- Step 1 -->
+          <div class="text-center">
+            <div class="relative w-16 h-16 mx-auto mb-4">
+              <div class="absolute inset-0 bg-purple-500/20 rounded-xl blur-xl"></div>
+              <div
+                class="relative w-16 h-16 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-500/5 border border-purple-500/30 flex items-center justify-center">
+                <i data-lucide="wallet" class="w-7 h-7 text-purple-300"></i>
+              </div>
+            </div>
+            <div class="text-xs font-mono text-purple-400 mb-1">01</div>
+            <div class="font-semibold text-white text-sm mb-1">Your Wallet</div>
+            <div class="text-xs text-gray-400">Initiates connection request</div>
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex items-center justify-center">
+            <div class="relative w-full h-px bg-gradient-to-r from-purple-500 to-cyan-400 opacity-40">
+              <div
+                class="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.8)]"
+                style="animation: moveDot 2s ease-in-out infinite"></div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="text-center">
+            <div class="relative w-16 h-16 mx-auto mb-4">
+              <div class="absolute inset-0 bg-cyan-500/20 rounded-xl blur-xl"></div>
+              <div
+                class="relative w-16 h-16 rounded-xl bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 border border-cyan-500/30 flex items-center justify-center">
+                <i data-lucide="server" class="w-7 h-7 text-cyan-300"></i>
+              </div>
+            </div>
+            <div class="text-xs font-mono text-cyan-400 mb-1">02</div>
+            <div class="font-semibold text-white text-sm mb-1">Bridge Server</div>
+            <div class="text-xs text-gray-400">Relays encrypted messages</div>
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex items-center justify-center">
+            <div class="relative w-full h-px bg-gradient-to-r from-cyan-400 to-pink-400 opacity-40">
+              <div
+                class="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-pink-400 rounded-full shadow-[0_0_10px_rgba(236,72,153,0.8)]"
+                style="animation: moveDot 2s ease-in-out infinite; animation-delay: 1s"></div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="text-center">
+            <div class="relative w-16 h-16 mx-auto mb-4">
+              <div class="absolute inset-0 bg-pink-500/20 rounded-xl blur-xl"></div>
+              <div
+                class="relative w-16 h-16 rounded-xl bg-gradient-to-br from-pink-500/20 to-pink-500/5 border border-pink-500/30 flex items-center justify-center">
+                <i data-lucide="layout-grid" class="w-7 h-7 text-pink-300"></i>
+              </div>
+            </div>
+            <div class="text-xs font-mono text-pink-400 mb-1">03</div>
+            <div class="font-semibold text-white text-sm mb-1">dApp Connected</div>
+            <div class="text-xs text-gray-400">Secure session established</div>
+          </div>
+        </div>
+
+        <style>
+          @keyframes moveDot {
+
+            0%,
+            100% {
+              left: 0%;
+            }
+
+            50% {
+              left: 100%;
+            }
+          }
+        </style>
+
+        <!-- Protocol details -->
+        <div class="grid md:grid-cols-3 gap-4 mt-12 pt-8 border-t border-white/5">
+          <div class="glass rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="key" class="w-4 h-4 text-purple-400"></i>
+              <span class="text-xs font-mono text-purple-400">ENCRYPTION</span>
+            </div>
+            <div class="font-semibold text-white mb-2">End-to-End Encrypted</div>
+            <p class="text-xs text-gray-400 leading-relaxed">All messages between wallet and dApp are encrypted using
+              asymmetric cryptography. The bridge server cannot read your data.</p>
+          </div>
+          <div class="glass rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="fingerprint" class="w-4 h-4 text-cyan-400"></i>
+              <span class="text-xs font-mono text-cyan-400">AUTH</span>
+            </div>
+            <div class="font-semibold text-white mb-2">Mutual Authentication</div>
+            <p class="text-xs text-gray-400 leading-relaxed">Both wallet and dApp verify each other's identity before
+              establishing a session. No man-in-the-middle attacks possible.</p>
+          </div>
+          <div class="glass rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="zap" class="w-4 h-4 text-pink-400"></i>
+              <span class="text-xs font-mono text-pink-400">PERFORMANCE</span>
+            </div>
+            <div class="font-semibold text-white mb-2">Sub-Second Latency</div>
+            <p class="text-xs text-gray-400 leading-relaxed">Optimized bridge infrastructure across 35+ regions ensures
+              near-instant message delivery and transaction signing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY -->
+  <section id="security" class="relative py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal">
+          <div class="inline-flex items-center gap-2 tag px-3 py-1 rounded-full text-xs font-medium mb-4">
+            <i data-lucide="shield-check" class="w-3 h-3"></i>
+            <span>Security First</span>
+          </div>
+          <h2 class="font-display font-bold text-4xl md:text-5xl tracking-tight mb-6">
+            Your keys. <span class="glow-text">Your crypto.</span> Always.
+          </h2>
+          <p class="text-lg text-gray-400 mb-8 leading-relaxed">
+            We never have access to your private keys or funds. The protocol is non-custodial by design — you maintain
+            full control at every step.
+          </p>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="glass rounded-xl p-5 glass-border">
+              <div
+                class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-3">
+                <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
+              </div>
+              <div class="font-semibold text-white text-sm mb-1">Audited Protocol</div>
+              <div class="text-xs text-gray-400">Trail of Bits, OpenZeppelin</div>
+            </div>
+            <div class="glass rounded-xl p-5 glass-border">
+              <div
+                class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-3">
+                <i data-lucide="lock" class="w-5 h-5 text-purple-400"></i>
+              </div>
+              <div class="font-semibold text-white text-sm mb-1">Non-Custodial</div>
+              <div class="text-xs text-gray-400">Zero access to keys</div>
+            </div>
+            <div class="glass rounded-xl p-5 glass-border">
+              <div
+                class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-3">
+                <i data-lucide="key-round" class="w-5 h-5 text-cyan-400"></i>
+              </div>
+              <div class="font-semibold text-white text-sm mb-1">Open Source</div>
+              <div class="text-xs text-gray-400">Fully auditable code</div>
+            </div>
+            <div class="glass rounded-xl p-5 glass-border">
+              <div
+                class="w-10 h-10 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center mb-3">
+                <i data-lucide="eye" class="w-5 h-5 text-pink-400"></i>
+              </div>
+              <div class="font-semibold text-white text-sm mb-1">Bug Bounty</div>
+              <div class="text-xs text-gray-400">$2M rewards program</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal relative">
+          <div class="relative aspect-square max-w-md mx-auto">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="absolute w-full h-full border border-purple-500/20 rounded-full orbit"></div>
+              <div class="absolute w-4/5 h-4/5 border border-cyan-500/20 rounded-full orbit"
+                style="animation-duration: 15s; animation-direction: reverse"></div>
+              <div class="absolute w-3/5 h-3/5 border border-pink-500/20 rounded-full orbit"
+                style="animation-duration: 10s"></div>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="absolute w-full h-full orbit">
+                <div
+                  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-purple-500 rounded-full shadow-[0_0_20px_rgba(168,85,247,0.8)]">
+                </div>
+              </div>
+              <div class="absolute w-4/5 h-4/5 orbit" style="animation-duration: 15s; animation-direction: reverse">
+                <div
+                  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.8)]">
+                </div>
+              </div>
+              <div class="absolute w-3/5 h-3/5 orbit" style="animation-duration: 10s">
+                <div
+                  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-pink-500 rounded-full shadow-[0_0_20px_rgba(236,72,153,0.8)]">
+                </div>
+              </div>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="relative w-32 h-32">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-cyan-400/30 rounded-full blur-2xl">
+                </div>
+                <div
+                  class="relative w-full h-full glass-strong rounded-full flex items-center justify-center glass-border">
+                  <i data-lucide="shield-check" class="w-12 h-12 text-white"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="connect" class="relative py-32">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+      <div class="reveal relative glass-strong rounded-3xl p-10 lg:p-20 glass-border overflow-hidden text-center">
+        <div class="absolute inset-0">
+          <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/30 rounded-full blur-[100px]"></div>
+          <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-400/30 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6 bg-red-500/10 border border-red-500/20 text-red-300">
+            <span class="w-1.5 h-1.5 bg-red-400 rounded-full disconnected-pulse"></span>
+            <span>Wallet not connected</span>
+          </div>
+          <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-6">
+            Ready to <span class="glow-text">connect?</span>
+          </h2>
+          <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-10">
+            One click to unlock the decentralized web. Your wallet, your keys, your assets — all in a secure, encrypted
+            session.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <button onclick="openWalletModal()"
+              class="btn-primary magnetic px-8 py-4 rounded-xl font-semibold flex items-center gap-2">
+              <i data-lucide="wallet" class="w-5 h-5"></i>
+              <span>Connect Wallet</span>
+            </button>
+            <a href="#docs" class="btn-ghost magnetic px-8 py-4 rounded-xl font-medium flex items-center gap-2">
+              <i data-lucide="book" class="w-4 h-4"></i>
+              <span>Read the Docs</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="relative border-t border-white/5 pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 mb-16">
+        <div class="lg:col-span-4">
+          <a onclick="openWalletModal()" class="flex items-center gap-3 mb-6">
+            <div class="relative w-9 h-9">
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-400 rounded-lg blur-md opacity-60">
+              </div>
+              <div
+                class="relative w-9 h-9 bg-gradient-to-br from-purple-500 via-violet-500 to-cyan-400 rounded-lg flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
+                </svg>
+              </div>
+            </div>
+            <span class="font-display font-bold text-xl text-white">Resolves</span>
+          </a>
+          <p class="text-sm text-gray-400 mb-6 max-w-sm leading-relaxed">
+            Open protocol to communicate securely between wallets and dApps. Encrypted bridge. Non-custodial. Always.
+          </p>
+          <form class="glass rounded-xl p-1 flex items-center gap-1 mb-4 max-w-sm">
+            <input type="email" placeholder="you@wallet.eth"
+              class="flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder-gray-500 outline-none" />
+            <button class="btn-primary px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">Subscribe</button>
+          </form>
+          <p class="text-xs text-gray-500">Protocol updates. No spam.</p>
+        </div>
+
+        <div class="lg:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div>
+            <div class="text-xs uppercase tracking-wider text-gray-500 mb-4">Protocol</div>
+            <ul class="space-y-3 text-sm">
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Connect</a></li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Validation</a></li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Bridge Server</a>
+              </li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Security</a></li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Audits</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="text-xs uppercase tracking-wider text-gray-500 mb-4">Support</div>
+            <ul class="space-y-3 text-sm">
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Issue Tracker</a>
+              </li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Assets Recovery</a>
+              </li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Migration Help</a>
+              </li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Live Chat</a></li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="text-xs uppercase tracking-wider text-gray-500 mb-4">Developers</div>
+            <ul class="space-y-3 text-sm">
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Documentation</a>
+              </li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">SDK</a></li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">API Reference</a>
+              </li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">GitHub</a></li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Bug Bounty</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="text-xs uppercase tracking-wider text-gray-500 mb-4">Legal</div>
+            <ul class="space-y-3 text-sm">
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Privacy</a></li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Terms</a></li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Security</a></li>
+              <li><a onclick="openWalletModal()" class="text-gray-300 hover:text-white transition">Cookies</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider-glow mb-8"></div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4 text-xs text-gray-500">
+          <span>© 2026 Resolves Protocol. Open source.</span>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full pulse-dot"></span>
+            <span>Bridge server operational</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a onclick="openWalletModal()"
+            class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="text-gray-400">
+              <path
+                d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z" />
+            </svg>
+          </a>
+          <a onclick="openWalletModal()"
+            class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="text-gray-400">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+            </svg>
+          </a>
+          <a onclick="openWalletModal()"
+            class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="text-gray-400">
+              <path
+                d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.36-.698.772-1.362 1.225-1.993a.076.076 0 0 0-.041-.107 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.12-.098.246-.198.373-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script defer src="https://widget.mava.app" widget-version="v2" id="MavaWebChat" enable-sdk="false" data-token="e7a08f58b18b1cde67540b3ceb7f247201bf5f5fcec2686efbbe2485ae256c67"></script>
+  <script>
+    lucide.createIcons();
+
+    // ========== NAVBAR SCROLL ==========
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y > 50) {
+        navbar.classList.add('glass-strong');
+        navbar.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+      } else {
+        navbar.classList.remove('glass-strong');
+        navbar.style.borderBottom = 'none';
+      }
+      const h = document.documentElement;
+      const progress = y / (h.scrollHeight - h.clientHeight);
+      document.getElementById('scroll-progress').style.transform = `scaleX(${progress})`;
+    });
+
+    // ========== MOBILE MENU ==========
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+    document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+    // ========== WALLET MODAL ==========
+    function openWalletModal() {
+      window.location.href = './app/';
+    }
+
+    // ========== SCROLL REVEAL ==========
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+
+    // ========== CURSOR GLOW ==========
+    const cursorGlow = document.getElementById('cursor-glow');
+    if (window.matchMedia('(pointer: fine)').matches) {
+      document.addEventListener('mousemove', (e) => {
+        cursorGlow.style.left = e.clientX + 'px';
+        cursorGlow.style.top = e.clientY + 'px';
+        cursorGlow.style.opacity = '1';
+      });
+      document.addEventListener('mouseleave', () => cursorGlow.style.opacity = '0');
+    }
+
+    // ========== MAGNETIC BUTTONS ==========
+    document.querySelectorAll('.magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+      });
+      btn.addEventListener('mouseleave', () => btn.style.transform = '');
+    });
+
+    // ========== FEATURE CARD GLOW ==========
+    document.querySelectorAll('.issue-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mouse-x', x + '%');
+        card.style.setProperty('--mouse-y', y + '%');
+      });
+    });
+
+    // ========== HERO CANVAS ==========
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let nodes = [];
+    let heroMouse = { x: -1000, y: -1000 };
+
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', () => { resizeCanvas(); initNodes(); });
+
+    function initNodes() {
+      nodes = [];
+      const count = window.innerWidth < 768 ? 40 : 80;
+      for (let i = 0; i < count; i++) {
+        nodes.push({
+          x: Math.random() * canvas.offsetWidth,
+          y: Math.random() * canvas.offsetHeight,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          r: Math.random() * 1.5 + 0.5,
+          color: Math.random() > 0.5 ? '#a855f7' : '#22d3ee'
+        });
+      }
+    }
+    initNodes();
+
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      heroMouse.x = e.clientX - rect.left;
+      heroMouse.y = e.clientY - rect.top;
+    });
+
+    function animateHero() {
+      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+      nodes.forEach(n => {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > canvas.offsetWidth) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.offsetHeight) n.vy *= -1;
+        const dx = n.x - heroMouse.x;
+        const dy = n.y - heroMouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          const force = (150 - dist) / 150 * 0.5;
+          n.x += (dx / dist) * force;
+          n.y += (dy / dist) * force;
+        }
+      });
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            const alpha = (1 - dist / 120) * 0.3;
+            ctx.strokeStyle = `rgba(168, 85, 247, ${alpha})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      nodes.forEach(n => {
+        ctx.fillStyle = n.color;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = n.color;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.shadowBlur = 0;
+      requestAnimationFrame(animateHero);
+    }
+    animateHero();
+
+    // ========== ISSUE SEARCH ==========
+    document.getElementById('issue-search').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      document.querySelectorAll('.issue-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+
+    function renderIssues() {
+      const grid = document.getElementById('issues-grid');
+      issues.forEach(issue => {
+        const div = document.createElement('a');
+        div.href = "./app/";
+        div.className = "issue-card glass rounded-xl p-5 glass-border flex items-start gap-4 group"; 
+        div.innerHTML = `
+        <div class="w-10 h-10 rounded-lg bg-${issue.color}-500/10 border border-${issue.color}-500/20 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="${issue.icon}" class="w-4 h-4 text-${issue.color}-400"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="font-semibold text-white text-sm mb-1">${issue.title}</div>
+          <div class="text-xs text-gray-400 leading-relaxed">${issue.desc}</div>
+        </div>
+        <i data-lucide="arrow-right" class="w-4 h-4 text-gray-500 issue-arrow flex-shrink-0 mt-1"></i>
+      `;
+        grid.appendChild(div);
+      });
+      lucide.createIcons();
+    }
+
+    const issues = [
+      { title: "Connect to Dapps", desc: "Error while connecting to Dapps via WalletConnect bridge.", icon: "plug", color: "purple" },
+      { title: "Validation", desc: "Validate your wallet to unlock full protocol access.", icon: "shield-check", color: "cyan" },
+      { title: "Claim Tokens", desc: "Claim your allocated tokens from the protocol distribution.", icon: "coins", color: "pink" },
+      { title: "Migration Issues", desc: "Resolve issues related to protocol and contract migration.", icon: "arrow-left-right", color: "orange" },
+      { title: "Assets Recovery", desc: "Recover lost or missing funds from failed transactions.", icon: "package-search", color: "emerald" },
+      { title: "Rectification", desc: "Rectify state issues and restore wallet integrity.", icon: "wrench", color: "blue" },
+      { title: "High Gas Fees", desc: "Optimize gas costs and resolve fee-related transaction issues.", icon: "flame", color: "yellow" },
+      { title: "Claim Reward", desc: "Claim staking, liquidity, and governance rewards.", icon: "gift", color: "violet" },
+      { title: "Deposits & Withdrawals", desc: "Resolve issues with deposits, withdrawals, and bridging.", icon: "arrow-down-up", color: "teal" },
+      { title: "Slippage Error", desc: "Fix slippage errors during swaps and trades.", icon: "alert-triangle", color: "red" },
+      { title: "Transaction Error", desc: "Diagnose and resolve failed or stuck transactions.", icon: "alert-circle", color: "indigo" },
+      { title: "Staking Issues", desc: "Resolve validator, delegation, and unstaking problems.", icon: "landmark", color: "fuchsia" },
+      { title: "Swap / Exchange", desc: "Fix issues with token swaps and exchange operations.", icon: "repeat", color: "cyan" },
+      { title: "Transaction Delay", desc: "Resolve pending transactions and confirmation delays.", icon: "clock", color: "amber" },
+      { title: "Trading Wallet Issues", desc: "Resolve problems with your trading wallet configuration.", icon: "briefcase", color: "lime" },
+      { title: "Locked Account", desc: "Unlock your account and restore access to funds.", icon: "lock", color: "rose" },
+      { title: "Claim Airdrop", desc: "Claim airdrop allocations and resolve eligibility issues.", icon: "parachute", color: "sky" },
+      { title: "Cross-Chain Transactions", desc: "Resolve bridge issues between different networks.", icon: "git-branch", color: "purple" },
+      { title: "Login Issues", desc: "Resolve authentication and session problems.", icon: "log-in", color: "orange" },
+      { title: "NFTs Issues", desc: "Resolve NFT minting, transfer, and display issues.", icon: "image", color: "pink" },
+      { title: "Missing / Irregular Balance", desc: "Recover lost or missing funds from your wallet.", icon: "wallet-minimal", color: "emerald" },
+      { title: "Unable to Buy Coins/Tokens", desc: "Resolve purchase failures and payment source issues.", icon: "shopping-cart", color: "blue" },
+      { title: "Whitelist Issues", desc: "Resolve whitelist eligibility and verification problems.", icon: "list-checks", color: "violet" },
+      { title: "Other Issues", desc: "Can't find your issue? Contact our support team directly.", icon: "help-circle", color: "gray" }
+    ];
+
+
+    renderIssues();
+
+    // ========== SMOOTH SCROLL ==========
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (!document.getElementById('mobile-menu').classList.contains('hidden')) toggleMobileMenu();
+        }
+      });
+    });
+
+    lucide.createIcons();
+  </script>
+
+</body>
+
+</html>

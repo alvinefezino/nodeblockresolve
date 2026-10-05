@@ -1,0 +1,7 @@
+import Link from 'next/link';
+
+type Item = { title: string; text: string; icon?: string };
+
+export function SectionPage({ eyebrow, title, description, items, cta = 'Explore Connect' }: { eyebrow:string; title:string; description:string; items:Item[]; cta?:string }) {
+  return <main className="pt-32 min-h-screen"><section className="max-w-7xl mx-auto px-6 lg:px-8 py-20"><div className="max-w-3xl"><span className="inline-flex px-3 py-1.5 rounded-full text-xs font-medium bg-purple-500/10 border border-purple-500/20 text-purple-300 mb-6">{eyebrow}</span><h1 className="font-display font-bold text-5xl md:text-7xl tracking-tight mb-6">{title}</h1><p className="text-lg text-gray-400 leading-relaxed">{description}</p></div><div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-16">{items.map(item => <Link href="/connect" key={item.title} className="issue-card glass rounded-2xl p-6 glass-border block hover:border-purple-500/40 transition-colors"><div className="flex items-start justify-between mb-5"><div className="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-300">{item.icon ?? '◆'}</div><span className="text-purple-300 text-lg">→</span></div><h2 className="font-display font-semibold text-lg mb-2">{item.title}</h2><p className="text-sm text-gray-400 leading-relaxed">{item.text}</p></Link>)}</div><div className="mt-12"><Link href="/connect" className="btn-primary inline-flex px-6 py-3 rounded-xl font-semibold">{cta}</Link></div></section></main>;
+}
