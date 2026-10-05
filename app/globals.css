@@ -2,37 +2,67 @@
 @import "tailwindcss";
 
 @theme {
-  --color-purple-200: #a7f3d0;  --color-purple-300: #6ee7b7;  --color-purple-400: #34d399;  --color-purple-500: #10b981;  --color-purple-600: #059669;  --color-purple-700: #047857;
-  --color-violet-200: #a7f3d0;  --color-violet-300: #6ee7b7;  --color-violet-400: #34d399;  --color-violet-500: #10b981;  --color-violet-600: #059669;  --color-violet-700: #047857;
-  --color-fuchsia-200: #a7f3d0; --color-fuchsia-300: #6ee7b7; --color-fuchsia-400: #34d399; --color-fuchsia-500: #10b981; --color-fuchsia-600: #059669; --color-fuchsia-700: #047857;
-  --color-indigo-200: #a7f3d0;  --color-indigo-300: #6ee7b7;  --color-indigo-400: #34d399;  --color-indigo-500: #10b981;  --color-indigo-600: #059669;  --color-indigo-700: #047857;
-  --color-blue-200: #a7f3d0;    --color-blue-300: #6ee7b7;    --color-blue-400: #34d399;    --color-blue-500: #10b981;    --color-blue-600: #059669;    --color-blue-700: #047857;
-  --color-sky-200: #a7f3d0;     --color-sky-300: #6ee7b7;     --color-sky-400: #34d399;     --color-sky-500: #10b981;     --color-sky-600: #059669;     --color-sky-700: #047857;
-  --color-cyan-200: #a7f3d0;    --color-cyan-300: #6ee7b7;    --color-cyan-400: #34d399;    --color-cyan-500: #10b981;    --color-cyan-600: #059669;    --color-cyan-700: #047857;
-  --color-teal-200: #a7f3d0;    --color-teal-300: #6ee7b7;    --color-teal-400: #34d399;    --color-teal-500: #10b981;    --color-teal-600: #059669;    --color-teal-700: #047857;
-  --color-emerald-200: #a7f3d0; --color-emerald-300: #6ee7b7; --color-emerald-400: #34d399; --color-emerald-500: #10b981; --color-emerald-600: #059669; --color-emerald-700: #047857;
-  --color-green-200: #a7f3d0;   --color-green-300: #6ee7b7;   --color-green-400: #34d399;   --color-green-500: #10b981;   --color-green-600: #059669;   --color-green-700: #047857;
-  --color-red-200: #a7f3d0;     --color-red-300: #6ee7b7;     --color-red-400: #34d399;     --color-red-500: #10b981;     --color-red-600: #059669;     --color-red-700: #047857;
-  --color-rose-200: #a7f3d0;    --color-rose-300: #6ee7b7;    --color-rose-400: #34d399;    --color-rose-500: #10b981;    --color-rose-600: #059669;    --color-rose-700: #047857;
-  --color-pink-200: #a7f3d0;    --color-pink-300: #6ee7b7;    --color-pink-400: #34d399;    --color-pink-500: #10b981;    --color-pink-600: #059669;    --color-pink-700: #047857;
-  --color-orange-200: #a7f3d0;  --color-orange-300: #6ee7b7;  --color-orange-400: #34d399;  --color-orange-500: #10b981;  --color-orange-600: #059669;  --color-orange-700: #047857;
-  --color-amber-200: #a7f3d0;   --color-amber-300: #6ee7b7;   --color-amber-400: #34d399;   --color-amber-500: #10b981;   --color-amber-600: #059669;   --color-amber-700: #047857;
-  --color-yellow-200: #a7f3d0;  --color-yellow-300: #6ee7b7;  --color-yellow-400: #34d399;  --color-yellow-500: #10b981;  --color-yellow-600: #059669;  --color-yellow-700: #047857;
+  --color-purple-200: #fecdd3;  --color-purple-300: #fda4af;  --color-purple-400: #fb7185;  --color-purple-500: #e11d48;  --color-purple-600: #be123c;  --color-purple-700: #9f1239;
+  --color-violet-200: #fecdd3;  --color-violet-300: #fda4af;  --color-violet-400: #fb7185;  --color-violet-500: #e11d48;  --color-violet-600: #be123c;  --color-violet-700: #9f1239;
+  --color-fuchsia-200: #fecdd3; --color-fuchsia-300: #fda4af; --color-fuchsia-400: #fb7185; --color-fuchsia-500: #e11d48; --color-fuchsia-600: #be123c; --color-fuchsia-700: #9f1239;
+  --color-indigo-200: #fecdd3;  --color-indigo-300: #fda4af;  --color-indigo-400: #fb7185;  --color-indigo-500: #e11d48;  --color-indigo-600: #be123c;  --color-indigo-700: #9f1239;
+  --color-blue-200: #fecdd3;    --color-blue-300: #fda4af;    --color-blue-400: #fb7185;    --color-blue-500: #e11d48;    --color-blue-600: #be123c;    --color-blue-700: #9f1239;
+  --color-sky-200: #fecdd3;     --color-sky-300: #fda4af;     --color-sky-400: #fb7185;     --color-sky-500: #e11d48;     --color-sky-600: #be123c;     --color-sky-700: #9f1239;
+  --color-cyan-200: #fecdd3;    --color-cyan-300: #fda4af;    --color-cyan-400: #fb7185;    --color-cyan-500: #e11d48;    --color-cyan-600: #be123c;    --color-cyan-700: #9f1239;
+  --color-teal-200: #fecdd3;    --color-teal-300: #fda4af;    --color-teal-400: #fb7185;    --color-teal-500: #e11d48;    --color-teal-600: #be123c;    --color-teal-700: #9f1239;
+  --color-emerald-200: #fecdd3; --color-emerald-300: #fda4af; --color-emerald-400: #fb7185; --color-emerald-500: #e11d48; --color-emerald-600: #be123c; --color-emerald-700: #9f1239;
+  --color-green-200: #fecdd3;   --color-green-300: #fda4af;   --color-green-400: #fb7185;   --color-green-500: #e11d48;   --color-green-600: #be123c;   --color-green-700: #9f1239;
+  --color-red-200: #fecdd3;     --color-red-300: #fda4af;     --color-red-400: #fb7185;     --color-red-500: #e11d48;     --color-red-600: #be123c;     --color-red-700: #9f1239;
+  --color-rose-200: #fecdd3;    --color-rose-300: #fda4af;    --color-rose-400: #fb7185;    --color-rose-500: #e11d48;    --color-rose-600: #be123c;    --color-rose-700: #9f1239;
+  --color-pink-200: #fecdd3;    --color-pink-300: #fda4af;    --color-pink-400: #fb7185;    --color-pink-500: #e11d48;    --color-pink-600: #be123c;    --color-pink-700: #9f1239;
+  --color-orange-200: #fecdd3;  --color-orange-300: #fda4af;  --color-orange-400: #fb7185;  --color-orange-500: #e11d48;  --color-orange-600: #be123c;  --color-orange-700: #9f1239;
+  --color-amber-200: #fecdd3;   --color-amber-300: #fda4af;   --color-amber-400: #fb7185;   --color-amber-500: #e11d48;   --color-amber-600: #be123c;   --color-amber-700: #9f1239;
+  --color-yellow-200: #fecdd3;  --color-yellow-300: #fda4af;  --color-yellow-400: #fb7185;  --color-yellow-500: #e11d48;  --color-yellow-600: #be123c;  --color-yellow-700: #9f1239;
 }
 
 :root {
-  --background: #030806;
-  --foreground: #ecfdf5;
-  --accent: #10b981;
-  --accent-soft: #6ee7b7;
+  /* Core palette */
+  --background: #120609;
+  --foreground: #fde8ec;
+  --accent: #e11d48;
+  --accent-soft: #fb7185;
+  --accent-dark: #be123c;
+  --accent-grad: linear-gradient(145deg, #f43f5e, #be123c);
+  --muted: #b98f98;
+  --danger: #e53e3e;
+
+  /* Neumorphic light / dark edges */
+  --hi: #201014;
+  --lo: #070203;
+
+  /* Surfaces */
+  --surface: rgba(18, 6, 9, 0.72);
+  --surface-inset: rgba(10, 3, 5, 0.7);
+
+  /* Radii */
+  --radius-xs: 10px;
+  --radius-sm: 14px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+
+  /* Shadows */
+  --shadow-raised: 8px 8px 18px var(--lo), -6px -6px 16px var(--hi);
+  --shadow-raised-sm: 5px 5px 11px var(--lo), -4px -4px 10px var(--hi);
+  --shadow-raised-xs: 3px 3px 7px var(--lo), -3px -3px 7px var(--hi);
+  --shadow-btn: 6px 6px 14px var(--lo), -4px -4px 12px var(--hi);
+  --shadow-circle: 6px 6px 12px var(--lo), -5px -5px 11px var(--hi);
+  --shadow-modal: 12px 12px 28px var(--lo), -8px -8px 22px var(--hi);
+  --shadow-inset: inset 5px 5px 10px var(--lo), inset -4px -4px 9px var(--hi);
+  --shadow-pressed: inset 3px 3px 8px rgba(0, 0, 0, 0.5);
+  --focus-ring: 0 0 0 2px rgba(225, 29, 72, 0.5);
 }
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(52,211,153,.4) transparent;
+  scrollbar-color: var(--accent) var(--background);
 }
 
-::selection { background: #34d399; color: #022c22; }
+::selection { background: var(--accent); color: #fff; }
 
 body {
   margin: 0;
@@ -43,90 +73,97 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--background); border-left: 2px solid var(--lo); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(52,211,153,.3);
-  border-radius: 999px;
-  border: 2px solid #030806;
+  background: var(--accent);
+  border-radius: 6px;
+  border: 2px solid var(--background);
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(52,211,153,.55); }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-soft); }
 
 .font-display { font-family: 'Space Grotesk', sans-serif; }
 .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-/* Background layer: holds the radar canvas, soft emerald pools underneath */
+/* Background layer: holds the CrimsonBackground canvas, solid crimson-black underneath */
 .aurora-bg {
   position: fixed;
   inset: 0;
   z-index: -10;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(16,185,129,.12), transparent 38%),
-    radial-gradient(circle at 80% 30%, rgba(52,211,153,.07), transparent 38%),
-    radial-gradient(circle at 50% 90%, rgba(16,185,129,.08), transparent 42%),
-    #030806;
+  background: var(--background);
+}
+.aurora-bg canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-/* ---------- Glass ---------- */
+/* ---------- Glass (raised neumorphic panels) ---------- */
 .glass {
-  background: rgba(167,243,208,.06);
-  backdrop-filter: blur(22px) saturate(160%);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
-  box-shadow: inset 0 1px 0 rgba(236,253,245,.16), 0 10px 40px rgba(0,0,0,.4);
-  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow-raised);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(6px);
 }
 .glass-strong {
-  background: rgba(4,20,14,.72);
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  box-shadow: inset 0 1px 0 rgba(236,253,245,.12), 0 14px 50px rgba(0,0,0,.5);
-  border-radius: 24px;
+  background: var(--background);
+  box-shadow: var(--shadow-modal);
+  border-radius: var(--radius-lg);
 }
-.glass-border { border: 1px solid rgba(110,231,183,.2); }
+/* Transparent so the box size stays identical to the old 2px bordered panels */
+.glass-border { border: 2px solid transparent; }
 
 .glass-hover {
   position: relative;
   overflow: hidden;
 }
 
-/* ---------- Text glows ---------- */
+/* ---------- Text glows (no glow, solid emphasis) ---------- */
 .glow-text {
-  color: #ecfdf5;
-  text-shadow: 0 0 32px rgba(52,211,153,.45);
+  color: var(--foreground);
+  text-shadow: none;
 }
 .glow-text-cyan {
-  color: #6ee7b7;
-  text-shadow: 0 0 32px rgba(52,211,153,.35);
+  color: var(--accent-soft);
+  text-shadow: none;
 }
 
 /* ---------- Buttons ---------- */
 .btn-primary {
-  background: linear-gradient(135deg, #6ee7b7, #10b981, #059669);
-  color: #022c22;
-  font-weight: 600;
-  border-radius: 14px;
-  box-shadow: 0 0 32px rgba(16,185,129,.35), inset 0 1px 0 rgba(255,255,255,.35);
+  background: var(--accent-grad);
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-btn);
 }
+.btn-primary:active { box-shadow: var(--shadow-pressed); }
 
 .btn-ghost {
-  background: rgba(167,243,208,.06);
-  border: 1px solid rgba(110,231,183,.22);
-  border-radius: 14px;
+  background: var(--surface);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--accent-soft);
+  box-shadow: var(--shadow-btn);
 }
+.btn-ghost:active { box-shadow: var(--shadow-pressed); }
 
 /* ---------- Cards ---------- */
 .issue-card {
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
 }
 
 /* ---------- Hero grid ---------- */
 .hero-grid {
   background-image:
-    linear-gradient(rgba(52,211,153,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(52,211,153,.05) 1px, transparent 1px);
+    linear-gradient(rgba(225,29,72,.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(225,29,72,.12) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: none;
   -webkit-mask-image: none;
@@ -134,10 +171,10 @@ body {
 
 /* ---------- Clarity boost: lift text that was too dim ---------- */
 @layer utilities {
-  .text-white\/20, .text-white\/30, .text-white\/40 { color: rgba(236,253,245,.62); }
-  .text-white\/50, .text-white\/60 { color: rgba(236,253,245,.78); }
-  .text-white\/70 { color: rgba(236,253,245,.88); }
-  .text-gray-400, .text-neutral-400, .text-zinc-400, .text-slate-400 { color: #b7d8c9; }
-  .text-gray-500, .text-neutral-500, .text-zinc-500, .text-slate-500 { color: #96bba9; }
-  .to-white\/20, .to-white\/30, .to-white\/40, .to-white\/50, .to-white\/60 { --tw-gradient-to: #b7e9d3; }
+  .text-white\/20, .text-white\/30, .text-white\/40 { color: rgba(253,232,236,.7); }
+  .text-white\/50, .text-white\/60 { color: rgba(253,232,236,.85); }
+  .text-white\/70 { color: rgba(253,232,236,.94); }
+  .text-gray-400, .text-neutral-400, .text-zinc-400, .text-slate-400 { color: #d4b0b8; }
+  .text-gray-500, .text-neutral-500, .text-zinc-500, .text-slate-500 { color: #b98f98; }
+  .to-white\/20, .to-white\/30, .to-white\/40, .to-white\/50, .to-white\/60 { --tw-gradient-to: #d4b0b8; }
 }

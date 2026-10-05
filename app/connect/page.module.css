@@ -27,24 +27,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(110, 231, 183, 0.3);
-  color: #6ee7b7;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 2px solid transparent;
+  color: var(--accent-soft);
   font-size: 1.3rem;
-  box-shadow: 0 0 24px rgba(16, 185, 129, 0.2);
+  box-shadow: var(--shadow-raised-sm);
 }
 
 .pageTitle {
-  color: #ecfdf5;
+  color: var(--foreground);
   font-size: 2.4rem;
-  font-weight: 800;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
 .pageSubtitle {
-  color: rgba(236, 253, 245, 0.68);
-  font-size: 1rem;
+  color: var(--accent-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
   margin: 0 0 0.5rem;
 }
 
@@ -54,27 +57,28 @@
 
 .searchInput {
   width: 100%;
-  background: rgba(167, 243, 208, 0.06);
-  color: #ecfdf5;
-  border: 1px solid rgba(110, 231, 183, 0.2);
-  border-radius: 16px;
+  background: var(--surface-inset);
+  color: var(--foreground);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
   padding: 0.9rem 1.1rem;
   font-size: 0.95rem;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: var(--shadow-inset);
 }
 .searchInput::placeholder {
-  color: rgba(236, 253, 245, 0.45);
+  color: var(--muted);
 }
 .searchInput:focus {
   outline: none;
-  background: rgba(167, 243, 208, 0.1);
-  border-color: rgba(52, 211, 153, 0.7);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+  background: var(--surface-inset);
+  border-color: transparent;
+  box-shadow: var(--shadow-inset), var(--focus-ring);
 }
 
 .noResults {
-  color: rgba(236, 253, 245, 0.58);
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.95rem;
   padding: 2rem 0;
 }
@@ -96,33 +100,32 @@
   gap: 0.6rem;
 }
 
-/* ---------- Glass circle ---------- */
+/* ---------- Circle (raised neumorphic disc) ---------- */
 .circle {
   position: relative;
   aspect-ratio: 1;
   width: 100%;
   max-width: 90px;
   border-radius: 50%;
-  background: rgba(167, 243, 208, 0.08);
-  border: 1px solid rgba(110, 231, 183, 0.25);
-  color: #ecfdf5;
+  background: var(--surface);
+  border: 2px solid transparent;
+  color: var(--accent-soft);
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: inset 0 1px 0 rgba(236, 253, 245, 0.18), 0 8px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-circle);
 }
 
 .circle:hover {
-  background: rgba(16, 185, 129, 0.18);
-  border-color: rgba(52, 211, 153, 0.55);
+  background: var(--accent-grad);
+  color: #fff;
+  border-color: transparent;
 }
-.circle:active { transform: scale(0.97); }
+.circle:active { box-shadow: var(--shadow-pressed); }
 
 .circleImage {
   width: 100%;
@@ -131,21 +134,22 @@
 }
 
 .circleLabel {
-  color: rgba(236, 253, 245, 0.9);
-  font-size: 0.85rem;
+  color: var(--foreground);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   text-align: center;
 }
 .circleWrapper:hover .circleLabel {
-  color: #6ee7b7;
+  color: var(--accent-soft);
 }
 
 /* ---------- Modal ---------- */
 .backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(1, 10, 7, 0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(7, 2, 3, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -155,13 +159,10 @@
 
 .modalCard {
   position: relative;
-  background: rgba(4, 22, 16, 0.78);
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  border: 1px solid rgba(110, 231, 183, 0.22);
-  box-shadow: inset 0 1px 0 rgba(236, 253, 245, 0.12),
-    0 24px 70px rgba(0, 0, 0, 0.65);
-  border-radius: 28px;
+  background: var(--background);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-modal);
+  border-radius: var(--radius-lg);
   padding: 2rem;
   width: 100%;
   max-width: 460px;
@@ -173,17 +174,21 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: none;
-  border: none;
-  color: rgba(236, 253, 245, 0.7);
-  font-size: 1.5rem;
+  background: var(--surface);
+  border: 2px solid transparent;
+  border-radius: var(--radius-xs);
+  color: var(--accent-soft);
+  font-size: 1.2rem;
   line-height: 1;
   cursor: pointer;
-  padding: 0.25rem 0.5rem;
+  padding: 0.2rem 0.5rem;
+  box-shadow: var(--shadow-raised-xs);
 }
 .closeBtn:hover {
-  color: #6ee7b7;
+  background: var(--accent-grad);
+  color: #fff;
 }
+.closeBtn:active { box-shadow: var(--shadow-pressed); }
 
 .modalHeader {
   display: flex;
@@ -197,7 +202,8 @@
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid rgba(110, 231, 183, 0.4);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-raised-xs);
 }
 
 .modalLogoFallback {
@@ -207,17 +213,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(16, 185, 129, 0.14);
-  border: 1px solid rgba(110, 231, 183, 0.4);
-  color: #6ee7b7;
-  font-weight: 700;
+  background: var(--accent-grad);
+  border: 2px solid transparent;
+  color: #fff;
+  font-weight: 800;
   font-size: 1.2rem;
+  box-shadow: var(--shadow-raised-xs);
 }
 
 .modalTitle {
-  color: #ecfdf5;
+  color: var(--foreground);
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: 800;
+  text-transform: uppercase;
   margin: 0;
 }
 
@@ -225,16 +233,19 @@
 .tabRow {
   display: flex;
   gap: 1.75rem;
-  border-bottom: 1px solid rgba(110, 231, 183, 0.18);
+  border-bottom: 2px solid var(--lo);
   margin-bottom: 1.5rem;
 }
 
 .tabBtn {
   background: none;
   border: none;
-  color: rgba(236, 253, 245, 0.55);
+  color: var(--muted);
   padding: 0 0 0.85rem;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   cursor: pointer;
   position: relative;
 }
@@ -243,18 +254,17 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -1px;
-  height: 2px;
+  bottom: -2px;
+  height: 4px;
+  background: var(--accent);
   border-radius: 2px;
-  background: #34d399;
-  box-shadow: 0 0 12px rgba(52, 211, 153, 0.7);
   transform: scaleX(0);
 }
-.tabBtn:hover { color: rgba(236, 253, 245, 0.85); }
+.tabBtn:hover { color: var(--foreground); }
 
 .tabActive {
-  color: #6ee7b7;
-  font-weight: 600;
+  color: var(--accent-soft);
+  font-weight: 800;
 }
 .tabActive::after { transform: scaleX(1); }
 
@@ -272,19 +282,24 @@
 }
 
 .field label {
-  color: rgba(236, 253, 245, 0.62);
-  font-size: 0.85rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
-.field:focus-within label { color: #6ee7b7; }
+.field:focus-within label { color: var(--accent-soft); }
 
 .field input,
 .field textarea {
-  background: rgba(167, 243, 208, 0.05);
-  color: #ecfdf5;
-  border: 1px solid rgba(110, 231, 183, 0.2);
-  border-radius: 14px;
+  background: var(--surface-inset);
+  color: var(--foreground);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
   padding: 0.85rem 1rem;
   font-size: 0.95rem;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: var(--shadow-inset);
 }
 
 .field textarea {
@@ -294,51 +309,59 @@
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: rgba(236, 253, 245, 0.4);
+  color: var(--muted);
 }
 
 .field input:focus,
 .field textarea:focus {
   outline: none;
-  background: rgba(167, 243, 208, 0.09);
-  border-color: rgba(52, 211, 153, 0.7);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+  background: var(--surface-inset);
+  border-color: transparent;
+  box-shadow: var(--shadow-inset), var(--focus-ring);
 }
 
 .formHint {
-  color: rgba(236, 253, 245, 0.48);
-  font-size: 0.8rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
   margin: -0.3rem 0 0;
 }
 
 .submitBtn {
-  background: linear-gradient(135deg, #6ee7b7, #10b981, #059669);
-  color: #022c22;
-  border: none;
-  border-radius: 14px;
+  background: var(--accent-grad);
+  color: #fff;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
   padding: 0.85rem;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.95rem;
-  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   cursor: pointer;
-  box-shadow: 0 0 28px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: var(--shadow-btn);
 }
-.submitBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+.submitBtn:hover:not(:disabled) { filter: brightness(1.08); }
+.submitBtn:active:not(:disabled) { box-shadow: var(--shadow-pressed); }
+.submitBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .cancelBtn {
-  background: rgba(167, 243, 208, 0.06);
-  border: 1px solid rgba(110, 231, 183, 0.22);
-  color: rgba(236, 253, 245, 0.85);
-  border-radius: 14px;
+  background: var(--surface);
+  border: 2px solid transparent;
+  color: var(--accent-soft);
+  border-radius: var(--radius-sm);
   padding: 0.7rem;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   cursor: pointer;
+  box-shadow: var(--shadow-btn);
 }
 .cancelBtn:hover {
-  background: rgba(16, 185, 129, 0.14);
-  border-color: rgba(52, 211, 153, 0.5);
+  background: var(--accent-grad);
+  color: #fff;
 }
+.cancelBtn:active { box-shadow: var(--shadow-pressed); }
 
 .securityNotice {
   display: flex;
@@ -346,37 +369,40 @@
   gap: 0.85rem;
   margin-top: 1.5rem;
   padding: 1rem;
-  border-radius: 16px;
-  background: rgba(16, 185, 129, 0.07);
-  border: 1px solid rgba(110, 231, 183, 0.2);
+  border-radius: var(--radius-md);
+  background: var(--surface-inset);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-inset);
 }
 
 .securityIcon {
   flex-shrink: 0;
   width: 28px;
   height: 28px;
-  border-radius: 50%;
+  border-radius: var(--radius-xs);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(16, 185, 129, 0.2);
-  border: 1px solid rgba(110, 231, 183, 0.45);
-  color: #6ee7b7;
+  background: var(--surface);
+  border: 2px solid transparent;
+  color: var(--accent-soft);
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 800;
+  box-shadow: var(--shadow-raised-xs);
 }
 
 .securityTitle {
-  color: #ecfdf5;
+  color: var(--foreground);
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0 0 0.2rem;
   line-height: 1.4;
 }
 
 .securitySubtitle {
-  color: rgba(236, 253, 245, 0.58);
-  font-size: 0.8rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
   margin: 0;
 }
 
@@ -390,9 +416,10 @@
 }
 
 .loadingTitle {
-  color: #ecfdf5;
+  color: var(--foreground);
   font-size: 1.3rem;
-  font-weight: 700;
+  font-weight: 800;
+  text-transform: uppercase;
   text-align: center;
   margin: 0 0 1rem;
   padding: 1.5rem 1.5rem 0;
@@ -402,7 +429,8 @@
 .loadingDivider {
   width: 100%;
   border: none;
-  border-top: 1px solid rgba(110, 231, 183, 0.18);
+  border-top: 2px solid var(--lo);
+  box-shadow: 0 1px 0 var(--hi);
   margin: 0 0 2.5rem;
 }
 
@@ -417,7 +445,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px dashed rgba(110, 231, 183, 0.3);
+  border: 2px dashed var(--accent-dark);
   animation: slowSpin 8s linear infinite;
 }
 
@@ -425,10 +453,10 @@
   position: absolute;
   inset: 6px;
   border-radius: 50%;
-  border: 3px solid transparent;
-  border-bottom-color: #34d399;
-  border-left-color: #059669;
-  box-shadow: 0 0 18px rgba(52, 211, 153, 0.45);
+  border: 4px solid transparent;
+  border-bottom-color: var(--accent);
+  border-left-color: var(--accent);
+  box-shadow: none;
   animation: spin 1.2s linear infinite;
 }
 
@@ -436,9 +464,9 @@
   position: absolute;
   inset: 20px;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, rgba(52, 211, 153, 0.28), rgba(2, 44, 34, 0.92));
-  border: 1px solid rgba(52, 211, 153, 0.35);
-  box-shadow: inset 0 0 20px rgba(52, 211, 153, 0.22);
+  background: var(--surface-inset);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-inset);
 }
 
 @keyframes slowSpin {
@@ -451,8 +479,9 @@
 }
 
 .loadingText {
-  color: rgba(236, 253, 245, 0.78);
-  font-size: 1rem;
+  color: var(--accent-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
   padding-bottom: 1.5rem;
   animation: stepFadeIn 0.5s ease both;
 }
@@ -466,16 +495,21 @@
 .errorWrap {
   display: flex;
   flex-direction: column;
-  border-radius: 20px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   cursor: default;
+  background: var(--surface-inset);
+  border: 2px solid var(--danger);
+  box-shadow: var(--shadow-inset);
 }
 
 .errorHeader {
-  background: #e53e3e;
-  color: #ffffff;
-  font-size: 0.85rem;
-  font-weight: 600;
+  background: var(--danger);
+  color: #000000;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   padding: 0.65rem 1.25rem;
 }
 
@@ -488,22 +522,24 @@
 }
 
 .errorTitle {
-  color: #ecfdf5;
+  color: var(--foreground);
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 900;
+  text-transform: uppercase;
   margin: 0;
 }
 
 .errorMain {
-  color: rgba(236, 253, 245, 0.9);
+  color: var(--foreground);
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   margin: 0;
 }
 
 .errorDetail {
-  color: rgba(236, 253, 245, 0.62);
-  font-size: 0.9rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
   line-height: 1.6;
   margin: 0;
 }
@@ -511,16 +547,21 @@
 .tryAgainBtn {
   align-self: flex-end;
   margin-top: 0.75rem;
-  background: none;
-  border: none;
-  color: #6ee7b7;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  background: var(--surface);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--accent-soft);
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   cursor: pointer;
-  padding: 0.4rem 0;
+  padding: 0.5rem 1rem;
+  box-shadow: var(--shadow-btn);
 }
 
 .tryAgainBtn:hover {
-  color: #a7f3d0;
+  background: var(--accent-grad);
+  color: #fff;
 }
+.tryAgainBtn:active { box-shadow: var(--shadow-pressed); }
