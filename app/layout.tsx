@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
-import CrimsonBackground from "../components/CrimsonBackground";
+import RadarBackground from "../components/RadarBackground";
 
 export const metadata: Metadata = {
   title: 'Resolves Protocol',
@@ -11,5 +11,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><div className="crimson-bg"/><Navbar/><CrimsonBackground />{children}<Footer/></body></html>;
+  return <html lang="en"><body><div className="crimson-bg"/><Navbar/><RadarBackground />{children}<Footer/></body></html>;
 }
