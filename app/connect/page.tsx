@@ -321,7 +321,7 @@ export default function ContactPage() {
   const [modalOpen, setModalOpen] = useState(false)
   const [pendingItem, setPendingItem] = useState<CircleItem | null>(null)
   const [activeItem, setActiveItem] = useState<CircleItem | null>(null)
-  const [userName, setUserName] = useState('')
+  const [walletAddress, setWalletAddress] = useState('')
   const [query, setQuery] = useState('')
 
   const filteredItems = useMemo(() => {
@@ -330,15 +330,13 @@ export default function ContactPage() {
     return items.filter((item) => item.label.toLowerCase().includes(q))
   }, [query])
 
-  // Step 1: open name modal, remember which circle was clicked
   function handleCircleClick(item: CircleItem) {
     setPendingItem(item)
     setNameModalOpen(true)
   }
 
-  // Step 2: name submitted — close name modal, open wallet form
-  function handleNameSubmit(name: string) {
-    setUserName(name)
+  function handleNameSubmit(address: string) {
+    setWalletAddress(address)
     setNameModalOpen(false)
     setActiveItem(pendingItem)
     setModalOpen(true)
@@ -408,7 +406,7 @@ export default function ContactPage() {
         open={modalOpen}
         onClose={handleClose}
         selectedItem={activeItem}
-        walletAddress={userName}
+        walletAddress={walletAddress}
       />
     </div>
   )

